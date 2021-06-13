@@ -4,15 +4,14 @@ import file_utils as fu
 import numpy as np
 import random as rnd
 
-IWIDTH =  448
-IHEIGHT = 448 
-IMAGES_PER_SYNT_IMAGE = 3  
+IWIDTH =  3*224 
+IHEIGHT = 3*224 
+IMAGES_PER_SYNT_IMAGE = 10  
 
 imageTrainDataPath = 'CoffeeBeanTrain/'
 imageValidationDataPath = 'CoffeeBeanValidation/'
-imageGenCount = 3 
+imageGenCount = 100 
 
-#fileList = fu.GetAllFiles('images/base','jpg')
 fileList = fu.GetAllFiles('../CoffeeBeans/images','jpeg')
 
 #finalImage = np.zeros((IWIDTH,IHEIGHT,3),np.uint8)
@@ -49,7 +48,6 @@ for i in range(0,imageGenCount):
     currentMaskImage  = maskImage.copy()
     imageWritePath = imageTrainDataPath + str(i) + 'i.png' 
     maskWritePath = imageTrainDataPath + str(i) + 'm.png' 
-    #bbsWritePath = imageTrainDataPath + str(i) + 'bb.npy' 
     beanCount = 1 
     for f in fileList:
         count += 1 
@@ -61,10 +59,10 @@ for i in range(0,imageGenCount):
 
             currentImage,currentMaskImage = CreateImageAndMask(image,thresh,bb,currentImage,currentMaskImage,beanCount)
             beanCount += 1
-            #cv2.rectangle(maskImage,(minY,minX),(maxY,maxX),255,1)
         
         if(count == IMAGES_PER_SYNT_IMAGE):
             if(beanCount == 0):
+                # no coffee was placed on image. redo using different samples
                 i-=1
                 break
             
@@ -73,7 +71,6 @@ for i in range(0,imageGenCount):
 
             cv2.imwrite(imageWritePath,cv2.blur(noise + currentImage,(3,3)))
             cv2.imwrite(maskWritePath,currentMaskImage)
-            #np.save(bbsWritePath,finalBBs)
             break
 
     rnd.shuffle(fileList)
