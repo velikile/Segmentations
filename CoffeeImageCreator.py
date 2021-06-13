@@ -4,12 +4,13 @@ import file_utils as fu
 import numpy as np
 import random as rnd
 
-IWIDTH =  720 
-IHEIGHT = 720 
+IWIDTH =  448
+IHEIGHT = 448 
+IMAGES_PER_SYNT_IMAGE = 3  
 
 imageTrainDataPath = 'CoffeeBeanTrain/'
 imageValidationDataPath = 'CoffeeBeanValidation/'
-imageGenCount = 100 
+imageGenCount = 3 
 
 #fileList = fu.GetAllFiles('images/base','jpg')
 fileList = fu.GetAllFiles('../CoffeeBeans/images','jpeg')
@@ -18,7 +19,7 @@ fileList = fu.GetAllFiles('../CoffeeBeans/images','jpeg')
 finalImage = 20 * np.ones((IWIDTH,IHEIGHT,3),np.uint8)
 maskImage  = np.zeros((IWIDTH,IHEIGHT),np.uint8)
 
-def CreateImageAndMask(images,thresh,bb,currentImage,currentMask): 
+def CreateImageAndMask(images,thresh,bb,currentImage,currentMask,beanCounter): 
     minX,minY,maxX,maxY = bb
     beanImage = image[minX:maxX,minY:maxY]
     beanMask = thresh[minX:maxX,minY:maxY]
@@ -33,7 +34,7 @@ def CreateImageAndMask(images,thresh,bb,currentImage,currentMask):
     currentImage[minX:maxX,minY:maxY,] = temp 
     temp = currentMask[minX:maxX,minY:maxY,]
     beanMaskCond = beanMask > 0
-    temp[beanMaskCond] = beanMask[beanMaskCond]
+    temp[beanMaskCond] = beanCounter * beanMask[beanMaskCond]
     return currentImage,currentMask
 
 def ShouldSkipOnBB(bb):
@@ -48,31 +49,30 @@ for i in range(0,imageGenCount):
     currentMaskImage  = maskImage.copy()
     imageWritePath = imageTrainDataPath + str(i) + 'i.png' 
     maskWritePath = imageTrainDataPath + str(i) + 'm.png' 
-    bbsWritePath = imageTrainDataPath + str(i) + 'bb.npy' 
+    #bbsWritePath = imageTrainDataPath + str(i) + 'bb.npy' 
+    beanCount = 1 
     for f in fileList:
         count += 1 
         image,thresh,contours = IS.GetContours(f,10)
         bbs = IS.GetBoundingBoxes(contours)
-        finalBBs = [] 
         for bb in bbs :
             if ShouldSkipOnBB(bb):
                 continue
 
-            finalBBs.append(bb)
-            currentImage,currentMaskImage = CreateImageAndMask(image,thresh,bb,currentImage,currentMaskImage)
+            currentImage,currentMaskImage = CreateImageAndMask(image,thresh,bb,currentImage,currentMaskImage,beanCount)
+            beanCount += 1
             #cv2.rectangle(maskImage,(minY,minX),(maxY,maxX),255,1)
         
-        if(count == 10):
+        if(count == IMAGES_PER_SYNT_IMAGE):
+            if(beanCount == 0):
+                break
             
             noiseScalar = np.random.randint(10,size=1)[0]
             noise = noiseScalar *  np.random.normal(0,1,currentImage.shape)
 
             cv2.imwrite(imageWritePath,cv2.blur(noise + currentImage,(3,3)))
-            cv2.waitKey()
             cv2.imwrite(maskWritePath,currentMaskImage)
-            np.save(bbsWritePath,finalBBs)
-            cv2.waitKey()
-            count = 0 
+            #np.save(bbsWritePath,finalBBs)
             break
 
     rnd.shuffle(fileList)
