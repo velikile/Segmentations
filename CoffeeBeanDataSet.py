@@ -3,8 +3,9 @@ import torch
 import torch.utils.data
 from PIL import Image
 import numpy as np
+from torchvision.transforms import functional as F
 
-class CoffeeBeanDataset(torch.utils.data.Dataset):
+class CoffeeBeanDataSet(torch.utils.data.Dataset):
     def __init__(self, root, transforms=None):
         self.root = root
         self.transforms = transforms
@@ -13,6 +14,7 @@ class CoffeeBeanDataset(torch.utils.data.Dataset):
         self.masks = list(filter(lambda i : i.endswith('m.png'),all_ds_files))
 
     def __getitem__(self, idx):
+            print(f"index:{idx}")
             # load images ad masks
             img_path = os.path.join(self.root,  self.imgs[idx])
             mask_path = os.path.join(self.root, self.masks[idx])
@@ -63,5 +65,10 @@ class CoffeeBeanDataset(torch.utils.data.Dataset):
 
             if self.transforms is not None:
                 img, target = self.transforms(img, target)
+            else :
+                img, target  = F.to_tensor(img),target
 
             return img, target
+
+    def __len__(self):
+        return len(self.imgs)
