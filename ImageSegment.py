@@ -36,6 +36,7 @@ def GetMarkers(imagePath,distTransformThreshParam) :
 
 def GetContours(imagePath,distTransformThreshParam) :
 
+    # returns the background as 0 and 1 for foreground
     image = cv2.imread(imagePath)
     image = white_balance(image)
     gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
@@ -51,7 +52,7 @@ def GetContours(imagePath,distTransformThreshParam) :
 
     #ret, sure_bg = cv2.threshold(dist_transform,distTransformThreshParam*dist_transform.max(),255,0)
 
-    #thresh[sure_fg != 255] = 0
+    thresh[thresh == 255] = 1
     #thresh[sure_bg == 255] = 0
     image[thresh == 0] = 0
 

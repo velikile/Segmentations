@@ -65,6 +65,7 @@ for i in range(0,imageGenCount):
         
         if(count == IMAGES_PER_SYNT_IMAGE):
             if(beanCount == 0):
+                i-=1
                 break
             
             noiseScalar = np.random.randint(10,size=1)[0]
