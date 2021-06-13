@@ -1,0 +1,25 @@
+https://kili-technology.com/
+https://www.folio3.ai/image-segmentation/
+https://www.meetbunch.com/semantic-image-segmentation-services
+https://app.hasty.ai/
+
+CoffeBeans segmentation
+
+I have been tasked with training a network to segment and classify coffee beans 
+I have been given a small data set containing images of seperated coffee beans on a black background
+
+So that lead us to implement an open cv based image segmentation using otso method for the threshold image
+It worked quite well for well isolated coffee beans.
+
+I tried to train a  pretrained neural network to preform mask and region detection 
+due to the limited data count and limited time budget we had to add data to the problem
+
+So we came up with a plan 
+1. segment the data using the open cv algorithm
+2. isolate coffee beans into seperate images (in memory)
+3. construct large image with a background on it 
+4. start to paste the seperate coffee beans images on it 
+ 4.1 construct bounding boxes in such a way
+  using the first bounding box 
+  when the image is placed on the background image and 
+the background image 
