@@ -3,6 +3,7 @@ import ImageSegment as IS
 import file_utils as fu
 import numpy as np
 import random as rnd
+import os
 
 IWIDTH =  3*224 
 IHEIGHT = 3*224 
