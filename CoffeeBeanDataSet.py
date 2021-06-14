@@ -14,7 +14,6 @@ class CoffeeBeanDataSet(torch.utils.data.Dataset):
         self.masks = list(filter(lambda i : i.endswith('m.png'),all_ds_files))
 
     def __getitem__(self, idx):
-            print(f"index:{idx}")
             # load images ad masks
             img_path = os.path.join(self.root,  self.imgs[idx])
             mask_path = os.path.join(self.root, self.masks[idx])
