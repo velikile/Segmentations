@@ -14,7 +14,7 @@ if not os.path.exists(imageTrainDataPath):
     os.mkdir(imageTrainDataPath)
 imageValidationDataPath = 'CoffeeBeanValidation/'
 if not os.path.exists(imageValidationDataPath):
-    os.mkdir(imageTrainDataPath)
+    os.mkdir(imageValidationDataPath)
 imageGenCount = 100 
 
 fileList = fu.GetAllFiles('../CoffeeBeans/images','jpeg')
