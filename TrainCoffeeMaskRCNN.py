@@ -10,6 +10,7 @@ def main():
 
     # our dataset has two classes only - background and person
     num_classes = 2
+    batch_size = 10
     # use our dataset and defined transformations
     dataset = CoffeeBeanDataSet('CoffeeBeanTrain')
     dataset_test = CoffeeBeanDataSet('CoffeeBeanValidation') 
@@ -19,11 +20,11 @@ def main():
     #print(len(dataset),len(dataset_test))
     # define training and validation data loaders
     data_loader = torch.utils.data.DataLoader(
-        dataset, batch_size=1, shuffle=False, num_workers=1,
+        dataset, batch_size=batch_size, shuffle=False, num_workers=1,
         collate_fn=utils.collate_fn)
 
     data_loader_test = torch.utils.data.DataLoader(
-        dataset_test, batch_size=1, shuffle=False, num_workers=1,
+        dataset_test, batch_size=batch_size, shuffle=False, num_workers=1,
         collate_fn=utils.collate_fn)
 
     # get the model using our helper function
@@ -50,7 +51,7 @@ def main():
         # evaluate on the test dataset
         evaluate(model, data_loader_test, device=device)
 
-    print("That's it!")
 
+    torch.save(model,'mrcnn')
 if(__name__ == '__main__'):
     main()
