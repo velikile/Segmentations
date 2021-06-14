@@ -51,7 +51,6 @@ def main():
         # evaluate on the test dataset
         evaluate(model, data_loader_test, device=device)
 
-
-    torch.save(model,'mrcnn')
+    torch.save(model,'mrcnn.m')
 if(__name__ == '__main__'):
     main()

@@ -9,7 +9,11 @@ IHEIGHT = 3*224
 IMAGES_PER_SYNT_IMAGE = 10  
 
 imageTrainDataPath = 'CoffeeBeanTrain/'
+if not os.path.exists(imageTrainDataPath):
+    os.mkdir(imageTrainDataPath)
 imageValidationDataPath = 'CoffeeBeanValidation/'
+if not os.path.exists(imageValidationDataPath):
+    os.mkdir(imageTrainDataPath)
 imageGenCount = 100 
 
 fileList = fu.GetAllFiles('../CoffeeBeans/images','jpeg')
