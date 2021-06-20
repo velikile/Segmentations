@@ -17,7 +17,7 @@ if not os.path.exists(imageValidationDataPath):
     os.mkdir(imageValidationDataPath)
 imageGenCount = 100 
 
-fileList = fu.GetAllFiles('../CoffeeBeans/images','jpeg')
+fileList = ["c1.jpeg","c2.jpeg"]
 
 #finalImage = np.zeros((IWIDTH,IHEIGHT,3),np.uint8)
 finalImage = 20 * np.ones((IWIDTH,IHEIGHT,3),np.uint8)
@@ -79,5 +79,3 @@ for i in range(0,imageGenCount):
             break
 
     rnd.shuffle(fileList)
-
-
