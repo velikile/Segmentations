@@ -34,7 +34,7 @@ def GetMarkers(imagePath,distTransformThreshParam) :
 
     return image,markers
 
-def GetContours(imagePath,distTransformThreshParam) :
+def GetContours(imagePath,distTransformThreshParam=0.2) :
 
     # returns the background as 0 and 1 for foreground
     image = cv2.imread(imagePath)
@@ -43,7 +43,7 @@ def GetContours(imagePath,distTransformThreshParam) :
 
     ret, thresh = cv2.threshold(255-gray,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
 
-    kernel = np.ones((5,5),np.uint8)
+    kernel = np.ones((3,3),np.uint8)
 
     thresh = cv2.morphologyEx(thresh,cv2.MORPH_OPEN,kernel, iterations=1)
 
