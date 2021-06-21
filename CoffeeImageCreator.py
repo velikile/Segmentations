@@ -92,7 +92,8 @@ def width_height_int(vstr):
     return values
 
 def InitParameters():
-    global IWIDTH,IHEIGHT,IMAGE_PER_SYNT_IMAGE,IMAGE_GEN_COUNT
+    global IWIDTH,IHEIGHT,IMAGES_PER_SYNT_IMAGE,IMAGE_GEN_COUNT
+    print(IWIDTH,IHEIGHT,IMAGES_PER_SYNT_IMAGE,IMAGE_GEN_COUNT)
     parser = argparse.ArgumentParser()
     parser.add_argument('-s','--size',type=width_height_int)
     parser.add_argument('-c','--gen_count',type=int)
@@ -104,6 +105,7 @@ def InitParameters():
         IMAGES_PER_SYNT_IMAGE = args.count_per_gen_image
     if(args.gen_count !=None):
         IMAGE_GEN_COUNT = args.gen_count
+    print(IWIDTH,IHEIGHT,IMAGES_PER_SYNT_IMAGE,IMAGE_GEN_COUNT)
 
 if __name__ == "__main__" :
     InitParameters()
