@@ -91,7 +91,8 @@ def width_height_int(vstr):
         
     return values
 
-if __name__ == "__main__" :
+def InitParameters():
+    global IWIDTH,IHEIGHT,IMAGE_PER_SYNT_IMAGE,IMAGE_GEN_COUNT
     parser = argparse.ArgumentParser()
     parser.add_argument('-s','--size',type=width_height_int)
     parser.add_argument('-c','--gen_count',type=int)
@@ -103,5 +104,8 @@ if __name__ == "__main__" :
         IMAGES_PER_SYNT_IMAGE = args.count_per_gen_image
     if(args.gen_count !=None):
         IMAGE_GEN_COUNT = args.gen_count
+
+if __name__ == "__main__" :
+    InitParameters()
     itd,ivd = CreateFolderForGeneratedImages()
     main(itd,ivd);
